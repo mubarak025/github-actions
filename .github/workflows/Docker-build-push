@@ -1,4 +1,6 @@
+#this is a GitHub Actions workflow file that defines a workflow for building and pushing a Docker image to Docker Hub whenever there is a push to the main branch of the repository.
 name: Docker build and push
+
 on: 
   push:
     branches:
