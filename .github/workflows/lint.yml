@@ -1,6 +1,6 @@
-# The lint is used to check whether the syntax, format, and indentation (linting ) are correct or not  
+# The linter is used to check whether the syntax, format, and indentation (linting ) are correct or not  
 
-name: auto linter
+name: python-auto linter
 
 on:
   push:
