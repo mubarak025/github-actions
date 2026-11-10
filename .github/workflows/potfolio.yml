@@ -27,12 +27,13 @@ jobs:
         - name: upload the static file 
           id: pages
           uses: actions/configure-pages@v6
-          with: 
-              path: "." 
+           
 
         # statice code artifacts
         - name: upload static files
           uses : actions/upload-pages-artifact@v4
+          with: 
+              path: "."
 
         # deploy to action github page
 
