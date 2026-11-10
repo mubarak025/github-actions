@@ -1,47 +1,568 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Actions Test Page</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #0d1117;
-            color: #c9d1d9;
-        }
-        .container {
-            text-align: center;
-            padding: 2rem;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            background-color: #161b22;
-        }
-        h1 {
-            color: #58a6ff;
-            margin-top: 0;
-        }
-        .status {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            background-color: #238636;
-            color: white;
-            border-radius: 6px;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mubarak Baig K | AWS DevOps Engineer</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #0b1020;
+    color: #edf3ff;
+    line-height: 1.7;
+}
+
+.container {
+    width: 85%;
+    max-width: 1150px;
+    margin: auto;
+}
+
+header {
+    background: rgba(11,16,32,0.95);
+    border-bottom: 1px solid #25314a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #62e6d5;
+}
+
+nav a {
+    color: #edf3ff;
+    text-decoration: none;
+    margin-left: 22px;
+}
+
+nav a:hover {
+    color: #62e6d5;
+}
+
+.hero {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.hero-content {
+    max-width: 650px;
+}
+
+.hero h1 {
+    font-size: 52px;
+    line-height: 1.2;
+    margin: 20px 0;
+}
+
+.hero h1 span {
+    color: #62e6d5;
+}
+
+.hero p {
+    color: #aab6cc;
+    font-size: 18px;
+}
+
+.highlight {
+    color: #62e6d5;
+    font-weight: bold;
+}
+
+.btn {
+    display: inline-block;
+    background: #62e6d5;
+    color: #07131d;
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 25px;
+    margin-right: 10px;
+}
+
+.btn:hover {
+    background: #fff;
+    transform: translateY(-2px);
+}
+
+.terminal {
+    background: #111a2e;
+    border: 1px solid #293650;
+    padding: 25px;
+    border-radius: 15px;
+    min-width: 300px;
+    box-shadow: 0 15px 40px #0005;
+}
+
+.terminal pre {
+    color: #62e6d5;
+    white-space: pre-wrap;
+    font-size: 15px;
+}
+
+section {
+    padding: 75px 0;
+}
+
+.section-title {
+    font-size: 34px;
+    margin-bottom: 35px;
+    color: #62e6d5;
+}
+
+.about p {
+    color: #aab6cc;
+    font-size: 17px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.stat, .card {
+    background: #111a2e;
+    padding: 25px;
+    border: 1px solid #293650;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.stat:hover, .card:hover {
+    transform: translateY(-5px);
+    border-color: #62e6d5;
+}
+
+.stat h2 {
+    color: #62e6d5;
+    font-size: 32px;
+}
+
+.stat p, .card p {
+    color: #aab6cc;
+}
+
+.skills, .projects {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card h3 {
+    color: #62e6d5;
+    margin-bottom: 12px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.tags span {
+    background: #202d47;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 13px;
+    color: #dce8ff;
+}
+
+.experience {
+    background: #111a2e;
+    border-left: 4px solid #62e6d5;
+    padding: 25px;
+    border-radius: 8px;
+}
+
+.experience h3 {
+    color: #62e6d5;
+}
+
+.experience p {
+    color: #aab6cc;
+}
+
+.contact {
+    text-align: center;
+    background: #111a2e;
+    padding: 45px;
+    border-radius: 15px;
+}
+
+.contact p {
+    color: #aab6cc;
+    margin-top: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #aab6cc;
+    border-top: 1px solid #293650;
+}
+
+@media(max-width: 850px) {
+    .hero {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 70px 0;
+    }
+
+    .skills, .projects, .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    nav a {
+        margin-left: 8px;
+        font-size: 13px;
+    }
+}
+
+@media(max-width: 550px) {
+    .container {
+        width: 90%;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .skills, .projects, .stats {
+        grid-template-columns: 1fr;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    nav a {
+        margin: 0 6px;
+    }
+}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Hello, GitHub Actions!</h1>
-        <p>If you see this page, your deployment workflow is working.</p>
-        <div class="status">Status: Deployed Successfully 🚀</div>
+
+<header>
+<div class="container">
+<nav>
+    <div class="logo">MUBARAK.</div>
+    <div>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
     </div>
+</nav>
+</div>
+</header>
+
+<!-- HERO SECTION -->
+<section class="container hero" id="home">
+
+<div class="hero-content">
+    <p class="highlight">HELLO, I'M MUBARAK BAIG K</p>
+
+    <h1>
+        AWS Cloud &<br>
+        <span>DevOps Engineer</span>
+    </h1>
+
+    <p>
+        IT Support Engineer transitioning into Cloud and DevOps.
+        Experienced in enterprise IT operations, AWS infrastructure,
+        Docker, Kubernetes, CI/CD automation and monitoring.
+    </p>
+
+    <a href="#projects" class="btn">View My Projects</a>
+    <a href="#contact" class="btn">Contact Me</a>
+</div>
+
+<div class="terminal">
+<pre>
+$ whoami
+
+Mubarak Baig K
+
+$ skills
+
+AWS
+Docker
+Kubernetes
+GitHub Actions
+Argo CD
+Prometheus
+Grafana
+
+$ status
+
+● Open to Opportunities
+</pre>
+</div>
+
+</section>
+
+<!-- ABOUT SECTION -->
+<section id="about">
+<div class="container">
+
+<h2 class="section-title">About Me</h2>
+
+<div class="about">
+<p>
+I am an IT Support Engineer with enterprise-level experience in
+IT infrastructure, endpoint management, identity and access
+management, and security operations.
+
+I have hands-on experience with Microsoft Intune, Active Directory,
+Microsoft Entra ID, Defender, and ServiceNow.
+
+I am expanding my expertise in AWS Cloud, Docker, Kubernetes,
+DevOps automation, CI/CD pipelines, and infrastructure monitoring.
+
+My goal is to build scalable, secure, and highly available
+cloud infrastructure.
+</p>
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<h2>5,000+</h2>
+<p>Tickets Resolved</p>
+</div>
+
+<div class="stat">
+<h2>95%</h2>
+<p>SLA Performance</p>
+</div>
+
+<div class="stat">
+<h2>4,000+</h2>
+<p>Endpoints Managed</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- SKILLS SECTION -->
+<section id="skills">
+<div class="container">
+
+<h2 class="section-title">Technical Skills</h2>
+
+<div class="skills">
+
+<div class="card">
+<h3>☁ AWS Cloud</h3>
+<div class="tags">
+<span>EC2</span><span>IAM</span><span>VPC</span>
+<span>S3</span><span>EBS</span><span>Route 53</span>
+<span>CloudWatch</span><span>ELB</span>
+<span>Auto Scaling</span><span>EKS</span>
+<span>Lambda</span>
+</div>
+</div>
+
+<div class="card">
+<h3>⚙ DevOps Tools</h3>
+<div class="tags">
+<span>Docker</span><span>Kubernetes</span>
+<span>Git</span><span>GitHub Actions</span>
+<span>Argo CD</span><span>Linux</span>
+<span>YAML</span><span>Shell Scripting</span>
+</div>
+</div>
+
+<div class="card">
+<h3>📊 Monitoring</h3>
+<div class="tags">
+<span>Prometheus</span><span>Grafana</span>
+<span>CloudWatch</span><span>Alert Management</span>
+</div>
+</div>
+
+<div class="card">
+<h3>🔐 DevSecOps</h3>
+<div class="tags">
+<span>Trivy</span><span>Gitleaks</span>
+<span>SonarQube</span><span>OWASP ZAP</span>
+</div>
+</div>
+
+<div class="card">
+<h3>🖥 IT Operations</h3>
+<div class="tags">
+<span>ServiceNow</span><span>Intune</span>
+<span>Active Directory</span><span>Entra ID</span>
+<span>Microsoft Defender</span><span>MFA</span>
+</div>
+</div>
+
+<div class="card">
+<h3>💻 Operating Systems</h3>
+<div class="tags">
+<span>Linux</span><span>Ubuntu</span>
+<span>Windows</span><span>macOS</span>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- PROJECTS SECTION -->
+<section id="projects">
+<div class="container">
+
+<h2 class="section-title">My Projects</h2>
+
+<div class="projects">
+
+<div class="card">
+<h3>🚀 Kubernetes CI/CD Pipeline</h3>
+<p>
+Built a containerized application deployment workflow
+using GitHub Actions and Argo CD.
+Automated application delivery to Kubernetes.
+</p>
+<div class="tags">
+<span>Docker</span><span>Kubernetes</span>
+<span>GitHub Actions</span><span>Argo CD</span>
+</div>
+</div>
+
+<div class="card">
+<h3>📊 AWS Monitoring Project</h3>
+<p>
+Configured Prometheus and Grafana monitoring
+for infrastructure and application metrics.
+Used AWS EC2 for hosting infrastructure.
+</p>
+<div class="tags">
+<span>AWS EC2</span><span>Prometheus</span>
+<span>Grafana</span>
+</div>
+</div>
+
+<div class="card">
+<h3>🔐 DevSecOps Pipeline</h3>
+<p>
+Exploring security automation in CI/CD pipelines
+with vulnerability scanning, secret detection,
+and code quality analysis.
+</p>
+<div class="tags">
+<span>Trivy</span><span>Gitleaks</span>
+<span>SonarQube</span><span>OWASP ZAP</span>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- EXPERIENCE SECTION -->
+<section id="experience">
+<div class="container">
+
+<h2 class="section-title">Professional Experience</h2>
+
+<div class="experience">
+<h3>IT Support Engineer | Helpdesk</h3>
+<p>Enterprise IT Operations</p>
+<br>
+<ul>
+<li>Resolved 5,000+ incidents and service requests using ServiceNow.</li>
+<li>Maintained 95% SLA performance.</li>
+<li>Managed Active Directory and Microsoft Entra ID access.</li>
+<li>Administered 4,000+ endpoints using Microsoft Intune.</li>
+<li>Maintained Windows and macOS endpoint compliance.</li>
+<li>Investigated Microsoft Defender security alerts.</li>
+<li>Supported MFA, access management and security operations.</li>
+</ul>
+</div>
+
+<br>
+
+<div class="experience">
+<h3>IT Support Specialist</h3>
+<p>Anthology Inc Pvt Ltd | Bengaluru</p>
+<br>
+<ul>
+<li>Managed Windows and Mac endpoint environments.</li>
+<li>Performed endpoint patching and compliance management.</li>
+<li>Handled Azure AD user and group administration.</li>
+<li>Supported vulnerability remediation and Defender alerts.</li>
+<li>Managed access requests and Microsoft 365 licenses.</li>
+</ul>
+</div>
+
+</div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section id="contact">
+<div class="container">
+
+<div class="contact">
+<h2 class="section-title">Let's Connect</h2>
+
+<p>
+I am interested in AWS Cloud and DevOps opportunities.
+Feel free to connect with me.
+</p>
+
+<a href="mailto:YOUR_EMAIL@example.com" class="btn">
+Email Me
+</a>
+
+<a href="https://www.linkedin.com/" class="btn" target="_blank">
+LinkedIn
+</a>
+
+<a href="https://github.com/" class="btn" target="_blank">
+GitHub
+</a>
+
+</div>
+</div>
+</section>
+
+<footer>
+<p>© 2026 Mubarak Baig K | AWS Cloud & DevOps Portfolio</p>
+<p>Designed with HTML and CSS | Deployed using GitHub Actions</p>
+</footer>
+
 </body>
 </html>
