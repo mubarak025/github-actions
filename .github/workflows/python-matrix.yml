@@ -1,5 +1,5 @@
 name: Python lint
-
+# python linter for github actions
 on:
   push: 
     branches: [main]
