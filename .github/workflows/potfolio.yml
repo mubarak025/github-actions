@@ -1,0 +1,35 @@
+name : potfolio
+
+on: 
+  push:
+    branches: [main]
+
+# Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+
+permissions:
+  pages: write      
+  id-token: write  
+
+jobs: 
+    deploy:
+      runs-on: ubuntu-latest
+
+      steps: 
+        # get access to your portfolio code via pre-build action
+        - name: checkout code
+          uses: action/checkout@v7
+
+        # setup github page
+        - name: setup free pages
+          uses: actions/configure-pages@v7
+
+        # statice code artifacts
+        - name: upload static files
+          uses : actions/upload-pages-artifact@v4
+
+        # deploy to action github page
+
+        - name: deploy to github pages
+          uses: actions/deploy-pages@v4
+
+
