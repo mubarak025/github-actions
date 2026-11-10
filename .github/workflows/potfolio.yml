@@ -21,12 +21,14 @@ jobs:
       steps: 
         # get access to your portfolio code via pre-build action
         - name: checkout code
-          uses: action/checkout@v7
+          uses: actions/checkout@v7
 
         # setup github page
-        - name: setup free pages
+        - name: upload the static file 
           id: pages
           uses: actions/configure-pages@v7
+          with: 
+              path: ", " 
 
         # statice code artifacts
         - name: upload static files
