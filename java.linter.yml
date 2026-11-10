@@ -1,0 +1,29 @@
+name: java Linter
+
+on:
+  push:
+    paths:
+      - " **/*.java "
+      - "pom.xml"
+  Pull request:
+
+  jobs:
+    checkstyle: 
+     runs-on: ubuntu-latest
+    
+     steps:
+      name: checkout source code
+      uses: actions/checkout@v7
+
+      name: java setup
+      uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      name: run checkstyle
+      uses: mvn checkstyle:check 
+
+
+
+     
