@@ -2,13 +2,26 @@ name: CICD
 
 on:
   workflow_dispatch: 
+   inputs:
+     environment:
+        description: This is the environment value where this workflow runs
+        default: "dev"
+        required: true
+        type: choice
+        options:
+         - dev
+         - staging
+         - prod 
+         
+       
+    
 
 jobs:
   code:
     runs-on:  ubuntu-latest
     steps:
       - name: clone the code
-        run: echo "clone the code"
+        run: echo "cloning the code"
 
   build:
     needs: [code]
