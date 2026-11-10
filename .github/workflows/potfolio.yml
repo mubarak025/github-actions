@@ -14,6 +14,10 @@ jobs:
     deploy:
       runs-on: ubuntu-latest
 
+      environment:
+        name: github-pages
+        url: ${{ steps.deployment.outputs.page_url }}
+
       steps: 
         # get access to your portfolio code via pre-build action
         - name: checkout code
@@ -21,6 +25,7 @@ jobs:
 
         # setup github page
         - name: setup free pages
+          id: pages
           uses: actions/configure-pages@v7
 
         # statice code artifacts
