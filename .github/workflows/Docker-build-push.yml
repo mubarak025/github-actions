@@ -22,7 +22,7 @@ jobs:
           
        - name: Check Docker Username
          run: |
-           echo "Docker Username: ${{ vars.DOCKER_USER }}"
+           echo "Docker Username: ${{ vars.DOCKERHUB_USER }}"
 
        - name: build and push docker hub
          uses: docker/build-push-action@v6
@@ -30,9 +30,9 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{vars.DOCKER_USER}}/github-actions-app:${{github.ref_name}}
-            ${{vars.DOCKER_USER}}/github-actions-app:latest
-            ${{vars.DOCKER_USER}}/github-actions-app:${{github.sha}}
+            ${{vars.DOCKERHUB_USER}}/github-actions-app:${{github.ref_name}}
+            ${{vars.DOCKERHUB_USER}}/github-actions-app:latest
+            ${{vars.DOCKERHUB_USER}}/github-actions-app:${{github.sha}}
 
 
 
