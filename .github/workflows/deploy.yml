@@ -18,20 +18,13 @@ jobs:
 
          - name: Debug Docker Compose
            run: |
-            echo "Current directory:"
-            pwd
-
-            echo "Current branch and commit:"
-            git branch --show-current
-            git log -1 --oneline
-
-            echo "Docker Compose files:"
+            echo "Checking Compose files..."
             find . -type f \( -name '*compose*.yml' -o -name '*compose*.yaml' \)
 
-            echo "Searching for incorrect variable:"
-            grep -RnF '${{ vars.DOCKERHUB_USER }}' . --exclude-dir=.git || true
- 
-            echo "Docker Compose configuration:"
+            echo "Checking incorrect variable..."
+            grep -Rn "vars.DOCKERHUB_USER" . --exclude-dir=.git || true
+
+            echo "Printing docker-compose.yml..."
             cat docker-compose.yml
 
 
