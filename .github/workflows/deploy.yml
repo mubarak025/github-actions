@@ -15,11 +15,25 @@ jobs:
          - name: checkout code
            uses: actions/checkout@v7
 
-         - name: verify Docker
+
+         - name: Debug Docker Compose
            run: |
-            docker --version
-            docker compose version
-            echo "Docker Hub User: $DOCKERHUB_USER"
+            echo "Current directory:"
+            pwd
+
+            echo "Current branch and commit:"
+            git branch --show-current
+            git log -1 --oneline
+
+            echo "Docker Compose files:"
+            find . -type f \( -name '*compose*.yml' -o -name '*compose*.yaml' \)
+
+            echo "Searching for incorrect variable:"
+            grep -RnF '${{ vars.DOCKERHUB_USER }}' . --exclude-dir=.git || true
+ 
+            echo "Docker Compose configuration:"
+            cat docker-compose.yml
+
 
          - name: deploy with docker compose
            run: docker compose up -d --build 
