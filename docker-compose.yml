@@ -1,7 +1,5 @@
 services:
   web:
-    images: ${{ vars.DOCKERHUB_USER }}
-     run:docker compose up -d --build
-  ports:
-      -80:80
-      
+    images: ${{ vars.DOCKERHUB_USER }}/github-actions-app:latest
+    ports:
+      - "80:80"
