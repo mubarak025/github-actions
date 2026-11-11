@@ -5,4 +5,7 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-CMD ["pytho", "app.py"]
+EXPOSE 80
+
+CMD ["python", "app.py"]
+
