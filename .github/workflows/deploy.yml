@@ -16,7 +16,7 @@ jobs:
          - name: deploy with docker compose
            env:
             DOCKERHUB_USER: ${{vars.DOCKERHUB_USER}}
-          run: |
+           run: |
             docker compose config
             docker compose up -d --build
 
