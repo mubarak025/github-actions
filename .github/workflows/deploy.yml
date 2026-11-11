@@ -17,9 +17,4 @@ jobs:
            env:
             DOCKERHUB_USER: ${{vars.DOCKERHUB_USER}}
            run: docker compose up -d --build 
-         - name: Debug Docker Compose file
-           run: |
-             pwd
-             ls -la
-             cat docker-compose.yml
-             grep -R '\${{ vars.DOCKERHUB_USER }}' .
+         
