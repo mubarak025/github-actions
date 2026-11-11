@@ -1,5 +1,5 @@
 services:
   web:
-    images: ${{ vars.DOCKERHUB_USER }}/github-actions-app:latest
+    images: ${{ DOCKERHUB_USER }}/github-actions-app:latest
     ports:
       - "80:80"
