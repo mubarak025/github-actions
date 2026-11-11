@@ -16,5 +16,12 @@ jobs:
          - name: deploy with docker compose
            env:
             DOCKERHUB_USER: ${{vars.DOCKERHUB_USER}}
-           run: docker compose up -d --build 
+          run: |
+            docker compose config
+            docker compose up -d --build
+
+         - name: verify deployment
+           run: |
+             docker ps
+             curl -f http://localhost:80
          
