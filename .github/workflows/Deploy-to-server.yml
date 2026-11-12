@@ -9,7 +9,11 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: SSH to prod server
+            - name: checkout code
+              uses: actions/checkout@v4
+
+        
+            - name: SSH to prod server and create app foler 
               uses: appleboy/ssh-action@v0.1.6
               with:
                 host: ${{ secrets.EC2_SSH_HOST }}
@@ -18,6 +22,15 @@ jobs:
                 script: |
                   echo" startaing deployment"
                   mkdir -p devops
+            
+            - name: copy docker compose file
+              uses: appelboy/scp-action@v0.1.6
+              with:
+                host: ${{ secrets.EC2_SSH_HOST }}
+                username: ${{ secrets.EC2_SSH_USER }}
+                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+                source: "docker-compose.yml"
+                target: "~/devops/docker-compose.yml"
 
             
 
