@@ -1,86 +1,54 @@
-# deploy-to- production server workflow #######
+# this will deploy the code to the server using ssh and rsync
 name: Deploy to server
 
 on:
-  workflow_call:
+    workflow_call:
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+    deploy:
+        runs-on: ubuntu-latest
 
-    steps:
-      # Step 1: Checkout repository
-      - name: Checkout code
-        uses: actions/checkout@v4
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v4
 
-      # Step 2: Create application folder on EC2
-      - name: Create app folder
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.EC2_SSH_HOST }}
-          username: ${{ secrets.EC2_SSH_USER }}
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          script: |
-            set -e
-            echo "Starting deployment"
-            mkdir -p "$HOME/devops"
-            ls -ld "$HOME/devops"
+        
+            - name: SSH to prod server and create app foler 
+              uses: appleboy/ssh-action@v0.1.6
+              with:
+                host: ${{ secrets.EC2_SSH_HOST }}
+                username: ${{ secrets.EC2_SSH_USER }}
+                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+                script: |
+                  echo" startaing deployment"
+                  mkdir -p devops
+            
+            - name: copy docker compose file
+              uses: appleboy/scp-action@v0.1.6
+              with:
+                host: ${{ secrets.EC2_SSH_HOST }}
+                username: ${{ secrets.EC2_SSH_USER }}
+                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+                source: "docker-compose.yml"
+                target: "~/devops/docker-compose.yml"
 
-      # Step 3: Copy Docker Compose file to EC2
-      - name: Copy Docker Compose file
-        uses: appleboy/scp-action@v1
-        env:
-          DOCKERHUB_USER: ${{ vars.DOCKERHUB_USER }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-        with:
-          host: ${{ secrets.EC2_SSH_HOST }}
-          username: ${{ secrets.EC2_SSH_USER }}
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          source: "docker-compose.yml"
-          target: "/home/${{ secrets.EC2_SSH_USER }}/devops/"
+            - name: SSH to prod server and run the app
+              uses: appleboy/ssh-action@v0.1.6
+              with:
+                host: ${{ secrets.EC2_SSH_HOST }}
+                username: ${{ secrets.EC2_SSH_USER }}
+                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+                script: |
+                  echo  " running the app"
+                  sudo apt-get update
+                  sudo apt-get install docker.io docker-compose-v2 -y
+                  sudo usermod -aG docker $USER && newgrp docker
+                  export DOCKERHUB_USER=${{ vars.DOCKERHUB_USER }}
+                  export DOCKE_TAG=${{ github.event.workflow_run.head_sha }}
+                  export DOCKER_TAG=${{ github.sha }}
+                  export ${{ github.sha }}
+                  echo ${{secrets.DOCKERHUB_TOKEN}} | docker login -u ${{vars.DOCKERHUB_USER}} --password-stdin
+                  cd ~/devops && docker compose down && docker compose up -d --build
 
-      # Step 4: Install Docker and deploy application
-      - name: Run application on EC2
-        uses: appleboy/ssh-action@v1
-        env:
-          DOCKERHUB_USER: ${{ vars.DOCKERHUB_USER }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-        with:
-          host: ${{ secrets.EC2_SSH_HOST }}
-          username: ${{ secrets.EC2_SSH_USER }}
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          envs: DOCKERHUB_USER,DOCKERHUB_TOKEN
-          script: |
-            set -e
+            
 
-            echo "Installing Docker if required"
-
-            if ! sudo docker compose version >/dev/null 2>&1; then
-            sudo apt-get update
-            sudo apt-get install -y docker.io docker-compose-v2
-            fi
-
-            sudo systemctl enable --now docker
-
-            echo "Logging into Docker Hub"
-
-            echo "$DOCKERHUB_TOKEN" | sudo docker login \
-            -u "$DOCKERHUB_USER" --password-stdin
-
-            cd "$HOME/devops"
-
-            echo "Creating Docker Compose environment"
-            printf 'DOCKERHUB_USER=%s\n' "$DOCKERHUB_USER" > .env
-            chmod 600 .env
-
-            echo "Checking image configuration"
-            sudo docker compose config --images
-
-            echo "Pulling Docker image"
-            sudo docker compose pull
-
-            echo "Starting application"
-            sudo docker compose up -d --remove-orphans
-
-            sudo docker ps
-            echo "Deployment completed"
