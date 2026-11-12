@@ -17,7 +17,7 @@ jobs:
           DOCKERHUB_USER: ${{ vars.DOCKERHUB_USER }}
         run: |
           docker compose config
-          docker compose up -d --build
+          docker compose down && docker compose up -d --build --force-recreate
 
       - name: verify deployment
         run: |

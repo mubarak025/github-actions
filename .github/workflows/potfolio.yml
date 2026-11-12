@@ -1,8 +1,9 @@
 name : potfolio
 
 on: 
-  push:
-    branches: [main]
+  workflow_dispatch
+#  push:
+#    branches: [main]
 
 # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
 
