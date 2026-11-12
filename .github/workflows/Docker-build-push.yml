@@ -1,7 +1,7 @@
 name: Docker build and push
 # Docker build and push workflow for GitHub Actions
 on: 
-  workflow_dispatch
+  workflow_call:
 
 jobs:
      build-and-push:
