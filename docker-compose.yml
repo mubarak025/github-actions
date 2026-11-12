@@ -5,3 +5,4 @@ services:
     container_name: github-actions-app
     ports:
       - "80:80"
+    restart: always
