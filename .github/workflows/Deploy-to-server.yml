@@ -32,5 +32,20 @@ jobs:
                 source: "docker-compose.yml"
                 target: "~/devops/docker-compose.yml"
 
+            - name: SSH to prod server and run the app
+              uses: appleboy/ssh-action@v0.1.6
+              with:
+                host: ${{ secrets.EC2_SSH_HOST }}
+                username: ${{ secrets.EC2_SSH_USER }}
+                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+                script: |
+                  echo  " running the app"
+                  sudo apt-get install docker.io docker-compose-v2 -y
+                  sudo usermode -aG docker $USER newgrp docker
+                  export DOCKERHUB_USER=${{ vars.DOCKERHUB_USER }}
+                  export DOCKERHUB_TOKEN=${{ secrets.DOCKERHUB_TOKEN }}
+                  echo ${{secrets.DOCKERHUB_TOKEN}} | docker login -u ${{secrets.DOCKERHUB_USER}} --password-stdin
+                  cd ~/devops && docker compose down && docker compose up -d --build
+
             
 
