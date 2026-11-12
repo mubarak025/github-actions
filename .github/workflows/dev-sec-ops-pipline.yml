@@ -26,5 +26,5 @@ jobs:
 
     deploy:
         needs: [trivy]
-        uses: ./.github/workflows/deploy.yml
+        uses: ./.github/workflows/Deploy-to-server.yml
 
