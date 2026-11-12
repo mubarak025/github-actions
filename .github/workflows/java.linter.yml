@@ -1,28 +1,38 @@
-name: java Linter
+
+name: Java Linter
 
 on:
-  push:
+  workflow_dispatch
+#  push:
+#    paths:
+#      - "**/*.java"
+#     - "pom.xml"
+
+  pull_request:
     paths:
-      - " **/*.java "
+      - "**/*.java"
       - "pom.xml"
-  Pull request:
 
-  jobs:
-    checkstyle: 
-     runs-on: ubuntu-latest
-    
-     steps:
-      name: checkout source code
-      uses: actions/checkout@v7
+jobs:
+  checkstyle:
+    runs-on: ubuntu-latest
 
-      name: java setup
-      uses: actions/setup-java@v4
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Java setup
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
 
-      name: run checkstyle
-      uses: mvn checkstyle:check 
+      - name: Check Java version
+        run: java -version
+
+      - name: Run Maven Checkstyle
+        run: mvn checkstyle:check
+
 
 
 
