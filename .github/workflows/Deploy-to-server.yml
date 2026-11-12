@@ -29,6 +29,9 @@ jobs:
       # Step 3: Copy Docker Compose file to EC2
       - name: Copy Docker Compose file
         uses: appleboy/scp-action@v1
+        env:
+          DOCKERHUB_USER: ${{ vars.DOCKERHUB_USER }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
         with:
           host: ${{ secrets.EC2_SSH_HOST }}
           username: ${{ secrets.EC2_SSH_USER }}
@@ -53,8 +56,8 @@ jobs:
             echo "Installing Docker if required"
 
             if ! sudo docker compose version >/dev/null 2>&1; then
-              sudo apt-get update
-              sudo apt-get install -y docker.io docker-compose-v2
+            sudo apt-get update
+            sudo apt-get install -y docker.io docker-compose-v2
             fi
 
             sudo systemctl enable --now docker
@@ -62,19 +65,22 @@ jobs:
             echo "Logging into Docker Hub"
 
             echo "$DOCKERHUB_TOKEN" | sudo docker login \
-              -u "$DOCKERHUB_USER" --password-stdin
-
-            echo "Deploying application"
+            -u "$DOCKERHUB_USER" --password-stdin
 
             cd "$HOME/devops"
 
+            echo "Creating Docker Compose environment"
+            printf 'DOCKERHUB_USER=%s\n' "$DOCKERHUB_USER" > .env
+            chmod 600 .env
+
+            echo "Checking image configuration"
+            sudo docker compose config --images
+
+            echo "Pulling Docker image"
             sudo docker compose pull
+
+            echo "Starting application"
             sudo docker compose up -d --remove-orphans
 
-            echo "Running containers"
             sudo docker ps
-
-            echo "Deployment completed successfully"
-
-            
-
+            echo "Deployment completed"
