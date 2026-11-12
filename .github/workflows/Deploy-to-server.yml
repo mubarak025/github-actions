@@ -20,12 +20,7 @@ jobs:
                  echo "Current directory:"
                  pwd
 
-                 mkdir -p ~/devops
-
-                 echo "Checking devops folder:"
-                 ls -ld ~/devops
-
-                 echo "Deployment completed"
+                 mkdir -p devops
                
 
 
