@@ -1,13 +1,12 @@
 name: Docker build and push
 # Docker build and push workflow for GitHub Actions
 on: 
-
   workflow_dispatch
 
-#  push:
+#push:
      
-  #  branches:
-  #   - main
+  #branches:
+  #- main
 jobs:
      build-and-push:
       runs-on: ubuntu-latest
