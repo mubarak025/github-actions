@@ -24,7 +24,7 @@ jobs:
                   mkdir -p devops
             
             - name: copy docker compose file
-              uses: appelboy/scp-action@v0.1.6
+              uses: appleboy/scp-action@v0.1.6
               with:
                 host: ${{ secrets.EC2_SSH_HOST }}
                 username: ${{ secrets.EC2_SSH_USER }}
